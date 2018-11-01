@@ -44,46 +44,41 @@ def draw_privacy_loss(histagram1, histagram2, N=10000, e=0.5):
   fig.tight_layout()
   plt.show()
 
-def draw_accuracy(data_list, qD, N=10000, e=0.5, beta=0.05):
+def draw_accuracy(data_list, N=1000, qD, e=0.5, beta=0.05):
   laplace_alpha = (1.0 / (N * e)) * np.log(1 / beta)
   print laplace_alpha
   laplace_errors = [(qD - r) for r in data_list]
 
-  # rr = RandomizedResponse()
-  # rr_errors, rr_alpha = rr.compute_accuacy(D0)
+  rr = RandomizedResponse()
+  rr_errors, rr_alpha = rr.compute_accuacy(D0, 100)
 
-  f, axarr = plt.subplots(2, sharex=True)
+  f, axarr = plt.subplots(2, sharex=False)
 
   axarr[0].set_title('Laplace')
   axarr[0].axhline(0, color='r')
   alpha_line_lp = axarr[0].axhline(laplace_alpha, color='r')
   axarr[0].axhline(-laplace_alpha, color='r')
   axarr[0].set_xlabel('Nth run')
-  axarr[0].set_ylabel('Value')
+  axarr[0].set_ylabel('Error')
   axarr[0].legend([alpha_line_lp], ['alpha = {:.6f}'.format(laplace_alpha)])
-  axarr[0].plot(laplace_errors, 'laplace_errors')
+  axarr[0].plot(laplace_errors, 'go')
 
-  axarr[1].set_title('Laplace')
-  axarr[1].axhline(0, color='r')
-  alpha_line_lp = axarr[0].axhline(laplace_alpha, color='r')
-  axarr[1].axhline(-laplace_alpha, color='r')
+  axarr[1].set_title('Randomized Response')
+  axarr[1].axhline(0, color='g')
+  alpha_line_rr = axarr[1].axhline(rr_alpha, color='r')
+  axarr[1].axhline(-rr_alpha, color='r')
   axarr[1].set_xlabel('Nth run')
-  axarr[1].set_ylabel('Value')
-  axarr[1].legend([alpha_line_lp], ['alpha = {:.6f}'.format(laplace_alpha)])
-  axarr[1].plot(laplace_errors, 'laplace_errors')
+  axarr[1].set_ylabel('Error')
+  axarr[1].legend([alpha_line_rr],['alpha = '+'{:.6f}'.format(rr_alpha)])
+  axarr[1].plot(rr_errors, 'go')
 
-  # axarr[1].set_title('Randomized Response')
-  # axarr[1].axhline(0, color='g')
-  # alpha_line_rr = axarr[1].axhline(rr_alpha, color='r')
-  # axarr[1].axhline(-rr_alpha, color='r')
-  # axarr[1].set_xlabel('Nth run')
-  # axarr[1].set_ylabel('Error')
-  # axarr[1].legend([alpha_line_rr],['alpha = '+'{:.6f}'.format(alpha_rr)])
-  # axarr[1].plot(rr_errors, 'rr_errors')
-
+  plt.title(
+    'BETA = ' + str(beta) +
+    'Epsilon = ' + str(e) +
+    'N = ' + str(N)
+  )
 
   plt.show()
-
 
 D0 = DataSet()
 D0.create_from_csv('./adult.csv')
@@ -92,9 +87,8 @@ D1.copy_from_dataset(D0)
 D1.records.pop() # eliminate one element
 
 laplace = Laplace()
-D0_histagram_data, qD0 = laplace.do_mechanism(D0, 10000)
-D1_histagram_data, qD1 = laplace.do_mechanism(D1, 10000)
-# draw_privacy_loss(D0_histagram_data, D1_histagram_data)
+D0_histagram_data, qD0 = laplace.do_mechanism(D0, 100)
+D1_histagram_data, qD1 = laplace.do_mechanism(D1, 100)
 
 # parameters are all laplace's parameter
 draw_accuracy(D0_histagram_data, qD0)

@@ -42,13 +42,13 @@ class RandomizedResponse:
     return float(count) / float(len(D.records))
 
   def compute_accuacy(self, D, N=100, e=0.5, beta=0.05):
-    c1 = 1 / (1 + E ** e)
-    c2 = (1 + E ** e) / ((E ** e) - 1)
-    c3 = math.sqrt(math.log(2 / beta) / (2*N))
-    alpha = c2 * c3
+    p = (1 + math.exp(e)) / (math.exp(e) - 1)
+    q = 1 / (1 + math.exp(e))
+    alpha = p * math.sqrt(math.log(2 / beta) / (2 * N))
+
     qD = self.get_qD(D)
     data_list = self.do_randomized_mechenism(D, N, e)
-    errors = [(qD - r) for r in data_list]
+    errors = [(p * (d - q)) - qD for d in data_list ]
 
     return errors, alpha
 
