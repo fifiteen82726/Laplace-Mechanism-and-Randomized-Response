@@ -11,7 +11,7 @@ In normal case, the `Laplace` result will be better than `Randomized Respose` re
 
 ### Test
 ```
-python exercise1/excecise_1.py
+python exercise1/exercise_1.py
 ```
 ### Result 
 N = `1000`, Epsilon = `0.5`, BETA = `0.05`. As you can see, the the spots in`Laplace` are closer with each others spot than `Randomized Respose`.
@@ -31,7 +31,7 @@ N = `1000`, Epsilon = `0.5`, BETA = `0.05`. As you can see, the the spots in`Lap
 
 ### Test
 ```
-python exercise2/excecise_2.py
+python exercise2/exercise_2.py
 ```
 
 ### Result 
