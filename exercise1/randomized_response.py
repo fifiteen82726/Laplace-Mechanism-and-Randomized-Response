@@ -9,7 +9,7 @@ E = math.e
 
 class RandomizedResponse:
   def threshold_query(self, record):
-    # income <=50 && education-num > 12
+    # income <=50 && education-num > 13
     if record[4] > 13 and record[14] == '<=50K':
       return 1
     else:

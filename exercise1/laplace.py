@@ -8,7 +8,7 @@ class Laplace:
     self.threshold_query_result = 0
 
   def threshold_query(self, dataset):
-    # income <=50 && education-num > 12
+    # income <=50 && education-num > 13
     count = 0
     for i in dataset.records:
       if i[4] > 13 and i[14] == '<=50K':
