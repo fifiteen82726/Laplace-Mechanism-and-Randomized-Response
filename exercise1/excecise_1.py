@@ -6,7 +6,7 @@ from data_set import DataSet
 from laplace import Laplace
 from randomized_response import RandomizedResponse
 
-def draw_privacy_loss(histagram1, histagram2, N=10000, e=0.5):
+def draw_privacy_loss(histagram1, histagram2, N=1000, e=0.5):
   integer_data1 = [int(x) for x in histagram1]
   integer_data2 = [int(x) for x in histagram2]
 
@@ -44,13 +44,13 @@ def draw_privacy_loss(histagram1, histagram2, N=10000, e=0.5):
   fig.tight_layout()
   plt.show()
 
-def draw_accuracy(data_list, N=1000, qD, e=0.5, beta=0.05):
+def draw_accuracy(data_list, qD, N=1000, e=0.5, beta=0.05):
   laplace_alpha = (1.0 / (N * e)) * np.log(1 / beta)
   print laplace_alpha
   laplace_errors = [(qD - r) for r in data_list]
 
   rr = RandomizedResponse()
-  rr_errors, rr_alpha = rr.compute_accuacy(D0, 100)
+  rr_errors, rr_alpha = rr.compute_accuacy(D0, 1000)
 
   f, axarr = plt.subplots(2, sharex=False)
 
@@ -87,8 +87,9 @@ D1.copy_from_dataset(D0)
 D1.records.pop() # eliminate one element
 
 laplace = Laplace()
-D0_histagram_data, qD0 = laplace.do_mechanism(D0, 100)
-D1_histagram_data, qD1 = laplace.do_mechanism(D1, 100)
+D0_histagram_data, qD0 = laplace.do_mechanism(D0, 1000)
+D1_histagram_data, qD1 = laplace.do_mechanism(D1, 1000)
 
 # parameters are all laplace's parameter
+draw_privacy_loss(D0_histagram_data, D1_histagram_data, 1000, e=0.5)
 draw_accuracy(D0_histagram_data, qD0)
