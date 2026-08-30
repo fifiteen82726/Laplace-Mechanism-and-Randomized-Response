@@ -1,8 +1,10 @@
+
+
 ## Exercise1
 
 ### Compare Randomized Response and Laplace Mechanism
 
-#### 1. Datasset Source: [Adult dataset](https://archive.ics.uci.edu/ml/datasets/Adult )
+#### 1. Datasset Source: [Adult dataset](https://archive.ics.uci.edu/ml/datasets/Adult ) (save the dataset as `adult.csv` in the current working directory)
 #### 2 .Query: Threshold Query: 
 To find how many adult whos income are `<= 50k` and education number `> 13`
 #### 3. Goal: 
